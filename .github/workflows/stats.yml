@@ -1,4 +1,4 @@
-﻿name: Update GitHub stats
+name: Update GitHub stats
 
 on:
   schedule:
@@ -8,6 +8,8 @@ on:
     branches: [main]
     paths:
       - "scripts/generate_stats.py"
+      - "scripts/build_assets.py"
+      - "fonts/**"
       - ".github/workflows/stats.yml"
 
 permissions:
