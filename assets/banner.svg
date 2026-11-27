@@ -36,7 +36,7 @@
 <line x1="0" y1="56" x2="830" y2="56" stroke="#f2efe9" stroke-opacity="0.08"/>
 <line x1="0" y1="322" x2="830" y2="322" stroke="#f2efe9" stroke-opacity="0.08"/>
 <text x="38" y="36" class="mono fade" font-size="11" letter-spacing="2" fill="#8a8780" style="animation-delay:.1s">KL—PORTFOLIO / 2026</text>
-<g class="fade" style="animation-delay:.3s"><circle cx="594" cy="32" r="4" fill="#ff6b2c"/><circle cx="594" cy="32" r="4" fill="#ff6b2c" class="pulse"/><text x="606" y="36" class="mono" font-size="11" letter-spacing="2" fill="#f2efe9">TAKING ON NEW PROJECTS</text></g>
+<g class="fade" style="animation-delay:.3s"><circle cx="622" cy="32" r="4" fill="#ff6b2c"/><circle cx="622" cy="32" r="4" fill="#ff6b2c" class="pulse"/><text x="634" y="36" class="mono" font-size="11" letter-spacing="2" fill="#f2efe9">SHIPPING FROM DELHI</text></g>
 <text x="42" y="96" class="mono fade" font-size="14" fill="#8a8780" style="animation-delay:.2s">hello, world — i’m<tspan fill="#ff6b2c" class="blink">_</tspan></text>
 <text x="38" y="208" class="display draw" font-size="132" letter-spacing="-5">Kartik</text>
 <g clip-path="url(#nameclip)"><rect class="shine" x="0" y="80" width="160" height="160" fill="url(#sh)" opacity="0.35" transform="skewX(-20)"/></g>

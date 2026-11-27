@@ -153,8 +153,8 @@ def hero():
     for y in (56, 322):
         o.append(f'<line x1="0" y1="{y}" x2="{W}" y2="{y}" stroke="{PAPER}" stroke-opacity="0.08"/>')
     o.append(f'<text x="38" y="36" class="mono fade" font-size="11" letter-spacing="2" fill="{DIM}" style="animation-delay:.1s">KL—PORTFOLIO / 2026</text>')
-    o.append(f'<g class="fade" style="animation-delay:.3s"><circle cx="{W-236}" cy="32" r="4" fill="{ORANGE}"/><circle cx="{W-236}" cy="32" r="4" fill="{ORANGE}" class="pulse"/>'
-             f'<text x="{W-224}" y="36" class="mono" font-size="11" letter-spacing="2" fill="{PAPER}">TAKING ON NEW PROJECTS</text></g>')
+    o.append(f'<g class="fade" style="animation-delay:.3s"><circle cx="{W-208}" cy="32" r="4" fill="{ORANGE}"/><circle cx="{W-208}" cy="32" r="4" fill="{ORANGE}" class="pulse"/>'
+             f'<text x="{W-196}" y="36" class="mono" font-size="11" letter-spacing="2" fill="{PAPER}">SHIPPING FROM DELHI</text></g>')
     o.append(f'<text x="42" y="96" class="mono fade" font-size="14" fill="{DIM}" style="animation-delay:.2s">hello, world — i’m<tspan fill="{ORANGE}" class="blink">_</tspan></text>')
     o.append('<text x="38" y="208" class="display draw" font-size="132" letter-spacing="-5">Kartik</text>')
     o.append('<g clip-path="url(#nameclip)"><rect class="shine" x="0" y="80" width="160" height="160" fill="url(#sh)" opacity="0.35" transform="skewX(-20)"/></g>')
@@ -328,8 +328,8 @@ def sweeplark():
 
 
 # ================================================================== PROJECT CARDS
-def card(fname, aria, accent, label, title, desc, tech, visual_fn, extra_css="", extra_defs="", bg="#0d0d0e"):
-    W, H = 405, 260
+def card(fname, aria, accent, label, title, desc, tech, visual_fn, extra_css="", extra_defs="", bg="#0d0d0e", W=405):
+    H = 260
     css = font_css("Display", "Body", "Mono", "MonoB") + BASE_CSS + extra_css + f"""
 .lift{{opacity:0;transform:translateY(14px);animation:up .9s cubic-bezier(.2,.8,.2,1) .15s forwards;}}
 .arrow{{animation:arrow 2.4s ease-in-out infinite;}}
@@ -351,30 +351,6 @@ def card(fname, aria, accent, label, title, desc, tech, visual_fn, extra_css="",
     o.append("</g>")
     o += frame_close(W, H, accent, 0.22)
     write(fname, "\n".join(o))
-
-
-def vis_sweeplark(W):
-    D = 5.0
-    o = [BIRD_DEFS.replace("id=\"s", "id=\"cs").replace("url(#s", "url(#cs")]
-    route = "M-40 110 C 80 120, 120 30, 210 60 S 340 120, 440 40"
-    o.append(f'<path id="cr" d="{route}" fill="none"/>')
-    o.append(f'<path d="{route}" fill="none" stroke="{MINT}" stroke-width="2" stroke-linecap="round" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100" opacity="0.7">'
-             f'<animate attributeName="stroke-dashoffset" dur="{D}s" repeatCount="indefinite" keyTimes="0;0.7;1" values="100;0;0"/>'
-             f'<animate attributeName="opacity" dur="{D}s" repeatCount="indefinite" keyTimes="0;0.7;0.95;1" values="0.7;0.7;0;0"/></path>')
-    files = [(70, 104, 0.16), (150, 52, 0.30), (232, 66, 0.44), (300, 100, 0.56), (360, 70, 0.64)]
-    for x, y, t in files:
-        o.append(f'<g transform="translate({x} {y})"><g><animateTransform attributeName="transform" type="scale" dur="{D}s" repeatCount="indefinite" keyTimes="0;{t:.2f};{t+0.05:.2f};0.92;1" values="1;1;0;0;1"/>'
-                 f'<animate attributeName="opacity" dur="{D}s" repeatCount="indefinite" keyTimes="0;{t:.2f};{t+0.05:.2f};0.92;1" values="1;1;0;0;1"/>'
-                 f'<path d="M-8 -10 h10 l6 6 v14 h-16z" fill="#1d150e" stroke="{AMBER}" stroke-width="1.4" stroke-linejoin="round"/></g>')
-        for j in range(6):
-            a = j / 6 * 6.28 + x
-            o.append(f'<circle r="1.6" fill="{MINT if j%2 else AMBER}" opacity="0"><animate attributeName="opacity" dur="{D}s" repeatCount="indefinite" keyTimes="0;{t:.3f};{t+0.01:.3f};{t+0.1:.3f};1" values="0;0;1;0;0"/>'
-                     f'<animateTransform attributeName="transform" type="translate" dur="{D}s" repeatCount="indefinite" keyTimes="0;{t:.3f};{t+0.1:.3f};1" values="0 0;0 0;{math.cos(a)*20:.1f} {math.sin(a)*20:.1f};{math.cos(a)*20:.1f} {math.sin(a)*20:.1f}"/></circle>')
-        o.append("</g>")
-    b = bird("0.28s").replace("url(#s", "url(#cs")
-    o.append(f'<g><animateMotion dur="{D}s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;1" keyTimes="0;0.7;1" calcMode="linear"><mpath xlink:href="#cr" href="#cr"/></animateMotion>'
-             f'<g transform="scale(0.1) rotate(12) translate(-300 -240)">{b}</g></g>')
-    return "".join(o)
 
 
 def vis_k4(W):
@@ -454,38 +430,26 @@ def vis_gb(W):
     green = "#4ade80"
     lines = [("automod", "blocked a scam link in #general"), ("/warn", "@spammer — rule 3"), ("welcome", "@newbie joined, role given"),
              ("/purge", "50 messages in #memes"), ("lfg", "Valorant 5-stack ready"), ("/mute", "@toxic for 10m"), ("backup", "settings saved to SQLite")]
-    rows = lines + lines
-    o = [f'<g><animateTransform attributeName="transform" type="translate" dur="14s" repeatCount="indefinite" values="0 0;0 -{len(lines)*22}"/>']
-    for i, (cmd, msg) in enumerate(rows):
-        y = 34 + i * 22
-        o.append(f'<circle cx="32" cy="{y-4}" r="3" fill="{green}" fill-opacity="{0.9 if i%3==0 else 0.4}"/>'
-                 f'<text x="44" y="{y}" class="monob" font-size="11" fill="{green}">{esc(cmd)}</text>'
-                 f'<text x="{44 + len(cmd)*7 + 10}" y="{y}" class="mono" font-size="11" fill="#a3a3a3">{esc(msg)}</text>')
-    o.append("</g>")
+    lines2 = [("/ping", "pong \u2014 42 ms"), ("/slowmode", "#general set to 5s"), ("automod", "caps spam removed"), ("/lock", "#announcements locked"),
+              ("/settings", "log channel saved"), ("/serverinfo", "members, roles, boosts"), ("/unmute", "@toxic, timer ended")]
+    o = []
+    cols = [(lines, 28, 14), (lines2, W // 2 + 8, 17)] if W > 500 else [(lines, 28, 14)]
+    for data, x0, dur in cols:
+        rows = data + data
+        o.append(f'<g><animateTransform attributeName="transform" type="translate" dur="{dur}s" repeatCount="indefinite" values="0 0;0 -{len(data)*22}"/>')
+        for i, (cmd, msg) in enumerate(rows):
+            y = 34 + i * 22
+            o.append(f'<circle cx="{x0+4}" cy="{y-4}" r="3" fill="{green}" fill-opacity="{0.9 if i%3==0 else 0.4}"/>'
+                     f'<text x="{x0+16}" y="{y}" class="monob" font-size="11" fill="{green}">{esc(cmd)}</text>'
+                     f'<text x="{x0+16 + measure(cmd, "MonoB", 11) + 10:.1f}" y="{y}" class="mono" font-size="11" fill="#a3a3a3">{esc(msg)}</text>')
+        o.append("</g>")
+    if W > 500:
+        o.append(f'<line x1="{W//2}" y1="24" x2="{W//2}" y2="132" stroke="#fff" stroke-opacity="0.06"/>')
     o.append(f'<rect x="12" y="12" width="{W-24}" height="26" fill="url(#topfade)"/><rect x="12" y="118" width="{W-24}" height="26" fill="url(#botfade)"/>')
     return "".join(o)
 
 
-def vis_jay(W):
-    pink = "#f472b6"
-    o = []
-    cols = 6
-    for i in range(12):
-        c, r = i % cols, i // cols
-        x, y = 26 + c * 60, 22 + r * 62
-        d = 3 + (i % 4) * 0.7
-        o.append(f'<g><rect x="{x}" y="{y}" width="52" height="54" rx="8" fill="{pink}" fill-opacity="0.08" stroke="{pink}" stroke-opacity="0.25">'
-                 f'<animate attributeName="fill-opacity" dur="{d:.1f}s" begin="-{i*0.37:.2f}s" repeatCount="indefinite" values="0.06;0.32;0.06"/></rect>'
-                 f'<path transform="translate({x+26} {y+27})" d="M-5 -7 L8 0 L-5 7Z" fill="{pink}" fill-opacity="0.8"/></g>')
-    o.append(f'<rect x="26" y="22" width="52" height="54" rx="8" fill="none" stroke="{pink}" stroke-width="2.4">'
-             f'<animate attributeName="x" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="26;206;326;86;26" keySplines="0.6 0 0.2 1;0.6 0 0.2 1;0.6 0 0.2 1;0.6 0 0.2 1"/>'
-             f'<animate attributeName="y" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="22;84;22;84;22" keySplines="0.6 0 0.2 1;0.6 0 0.2 1;0.6 0 0.2 1;0.6 0 0.2 1"/></rect>')
-    return "".join(o)
-
-
 def cards():
-    card("card-sweeplark.svg", "Sweeplark project card", TEAL2, "NEW · WINDOWS PC CLEANER", "Sweeplark",
-         "Cleaner + health monitor with an offline AI.", "rust · tauri 2 · svelte 5 · llama.cpp", vis_sweeplark, bg="#07100f")
     card("card-k4-audio.svg", "K4 Audio project card", ORANGE, "MUSIC APP · ANDROID + WINDOWS", "K4 Audio",
          "YT Music + JioSaavn. No ads, 320 kbps offline.", "kotlin · android · windows", vis_k4)
     card("card-anonymous-lab.svg", "Anonymous Lab project card", "#a78bfa", "PRIVACY TOOLKIT · WEB", "Anonymous Lab",
@@ -493,12 +457,9 @@ def cards():
     card("card-ai-server-manager.svg", "AI Server Manager project card", "#60a5fa", "DISCORD · AI AGENT", "AI Server Manager",
          "Runs a Discord server from plain English.", "node.js · discord.js · groq · ollama", vis_ai)
     card("card-gaming-bros-bot.svg", "Gaming Bros Bot project card", "#4ade80", "DISCORD · COMMUNITY BOT", "Gaming Bros Bot",
-         "Moderation, utilities and saved settings.", "node.js · discord.js · sqlite · pterodactyl", vis_gb,
+         "Moderation, utility commands and saved settings for a Discord community.", "node.js · discord.js · sqlite · pterodactyl", vis_gb,
          extra_defs='<linearGradient id="topfade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d0d0e"/><stop offset="1" stop-color="#0d0d0e" stop-opacity="0"/></linearGradient>'
-                    '<linearGradient id="botfade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d0d0e" stop-opacity="0"/><stop offset="1" stop-color="#0d0d0e"/></linearGradient>')
-    card("card-jay-sharma.svg", "Jay Sharma portfolio project card", "#f472b6", "CLIENT SITE · VIDEO EDITOR", "Jay Sharma",
-         "Reels grid, clients wall, filters, modals.", "html · css · javascript · vercel", vis_jay)
-
+                    '<linearGradient id="botfade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d0d0e" stop-opacity="0"/><stop offset="1" stop-color="#0d0d0e"/></linearGradient>', W=830)
 
 
 # ================================================================== STACK
@@ -604,9 +565,182 @@ def now():
              f'<animate attributeName="x" dur="{D}s" repeatCount="indefinite" calcMode="discrete" keyTimes="{";".join(f"{k:.5f}" for k in ckt)}" values="{";".join(f"{v:.1f}" for v in cx)}"/>'
              f'<animate attributeName="y" dur="{D}s" repeatCount="indefinite" calcMode="discrete" keyTimes="{";".join(f"{k:.5f}" for k in ckt)}" values="{";".join(str(v) for v in cy)}"/>'
              '<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1s" repeatCount="indefinite" calcMode="discrete"/></rect>')
-    o.append(f'<text x="34" y="{H-22}" class="mono" font-size="11" fill="#55534e">open for a few projects at a time · replies within 24h · kartiklangwan@gmail.com</text>')
+    o.append(f'<text x="34" y="{H-22}" class="mono" font-size="11" fill="#55534e">kartiklangwan.runs-on.dev · github.com/KartikLangwan · built solo, sketch to launch</text>')
     o += frame_close(W, H)
     return "\n".join(o)
+
+
+
+# ================================================================== K4 AUDIO SCENE
+def k4_scene():
+    import random
+    W, H, D = 830, 360, 12.0
+    RED = "#ff4d2e"
+    tracks = [("Night Drive", "Lofi Delhi · YouTube Music", "#ff6b2c", "#7a1d0b"),
+              ("Monsoon Static", "Neon Saavn · JioSaavn", "#ffb039", "#7a3a06"),
+              ("Midnight Metro", "K4 Sessions · YouTube Music", "#ff4d8d", "#5b0f2c")]
+    n = len(tracks)
+    css = font_css("Display", "Body", "Serif", "Mono", "MonoB") + BASE_CSS + """
+.disc{transform-box:fill-box;transform-origin:center;animation:spin 6s linear infinite;}
+"""
+    defs = (f'<radialGradient id="kg"><stop offset="0" stop-color="{ORANGE}" stop-opacity="0.55"/><stop offset="1" stop-color="{ORANGE}" stop-opacity="0"/></radialGradient>'
+            f'<linearGradient id="kt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{PAPER}"/><stop offset="1" stop-color="{ORANGE}"/></linearGradient>'
+            '<clipPath id="art"><rect x="0" y="0" width="128" height="128" rx="18"/></clipPath>')
+    for i, (_, _, c1, c2) in enumerate(tracks):
+        defs += f'<linearGradient id="a{i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{c1}"/><stop offset="1" stop-color="{c2}"/></linearGradient>'
+    o = frame_open(W, H, "K4 Audio: free, ad-free music player for Android and Windows", css, defs, bg="#100906")
+    o.append(f'<circle cx="640" cy="190" r="320" fill="url(#kg)" opacity="0.35"/><circle cx="0" cy="360" r="240" fill="url(#kg)" opacity="0.18"/>')
+    # copy
+    o.append(f'<text x="40" y="52" class="monob up" font-size="11" letter-spacing="2.4" fill="{ORANGE}" style="animation-delay:.1s">SHIPPED — ANDROID + WINDOWS</text>')
+    o.append(f'<text x="35" y="130" class="display up" font-size="78" letter-spacing="-3.5" fill="url(#kt)" style="animation-delay:.25s">K4 Audio</text>')
+    o.append(f'<text x="40" y="170" class="serif up" font-size="34" fill="{PAPER}" style="animation-delay:.45s">Music, <tspan fill="{ORANGE}">without the noise.</tspan></text>')
+    o.append(f'<g class="up" style="animation-delay:.65s"><text x="40" y="206" class="body" font-size="14.5" fill="#c2b3aa">YouTube Music and JioSaavn in one quiet, fast player.</text>'
+             f'<text x="40" y="226" class="body" font-size="14.5" fill="#c2b3aa">No ads. No account. Nothing watching you.</text></g>')
+    feats = [("320 KBPS", "offline downloads"), ("SYNCED", "lyrics, line by line"), ("IMPORT", "Spotify playlists")]
+    for i, (k, v) in enumerate(feats):
+        x = 40 + i * 124
+        o.append(f'<g class="up" style="animation-delay:{0.85 + i*0.12:.2f}s"><line x1="{x}" y1="256" x2="{x+110}" y2="256" stroke="{ORANGE}" stroke-opacity="0.4"/>'
+                 f'<text x="{x}" y="276" class="monob" font-size="10.5" letter-spacing="1.6" fill="{ORANGE}">{k}</text>'
+                 f'<text x="{x}" y="294" class="body" font-size="12" fill="#8f8079">{esc(v)}</text></g>')
+    o.append(f'<text x="40" y="330" class="mono up" font-size="11" fill="#6f625c" style="animation-delay:1.3s">kotlin · android · windows · free · k4audio.vercel.app</text>')
+
+    # player card
+    px, py, pw, ph = 470, 30, 330, 300
+    o.append(f'<g class="up" style="animation-delay:.4s"><g class="float" style="animation-duration:4s">')
+    o.append(f'<rect x="{px}" y="{py}" width="{pw}" height="{ph}" rx="24" fill="#150d0a" stroke="{ORANGE}" stroke-opacity="0.22"/>')
+    o.append(f'<text x="{px+24}" y="{py+34}" class="monob" font-size="9.5" letter-spacing="1.8" fill="#8f8079">NOW PLAYING</text>')
+    o.append(f'<g transform="translate({px+pw-70} {py+22})"><rect width="46" height="18" rx="9" fill="{ORANGE}" fill-opacity="0.15" stroke="{ORANGE}" stroke-opacity="0.5"/>'
+             f'<text x="23" y="12.5" text-anchor="middle" class="monob" font-size="8.5" fill="{ORANGE}">320K</text></g>')
+    seg = 1.0 / n
+    ax, ay = px + 24, py + 52
+    for i, (title, artist, c1, c2) in enumerate(tracks):
+        a, b = i * seg, (i + 1) * seg
+        if i == 0:
+            kt, vals = f"0;{b-0.02:.3f};{b:.3f};{1-0.02:.3f};1", "1;1;0;0;1"
+        else:
+            kt, vals = f"0;{a-0.02:.3f};{a:.3f};{b-0.02:.3f};{b:.3f};1", "0;0;1;1;0;0"
+        anim = f'<animate attributeName="opacity" dur="{D}s" repeatCount="indefinite" keyTimes="{kt}" values="{vals}"/>'
+        rnd = random.Random(i)
+        blobs = "".join(f'<circle cx="{rnd.randint(10,118)}" cy="{rnd.randint(10,118)}" r="{rnd.randint(18,46)}" fill="#fff" fill-opacity="{rnd.uniform(0.05,0.18):.2f}"/>' for _ in range(5))
+        o.append(f'<g opacity="{1 if i == 0 else 0}">{anim}'
+                 f'<g transform="translate({ax} {ay})" clip-path="url(#art)"><rect width="128" height="128" fill="url(#a{i})"/>{blobs}'
+                 f'<g transform="translate(64 64)"><g class="disc"><circle r="40" fill="#000" fill-opacity="0.35"/>'
+                 + "".join(f'<circle r="{r}" fill="none" stroke="#fff" stroke-opacity="0.12"/>' for r in (34, 28, 22)) +
+                 f'<circle r="10" fill="{c1}"/><rect x="-1" y="-40" width="2" height="12" fill="#fff" fill-opacity="0.5"/></g></g></g>'
+                 f'<text x="{ax+146}" y="{ay+40}" class="display" font-size="21" letter-spacing="-0.6" fill="{PAPER}">{esc(title)}</text>'
+                 f'<text x="{ax+146}" y="{ay+60}" class="body" font-size="11.5" fill="#a08f86">{esc(artist.split(" · ")[0])}</text>'
+                 f'<g transform="translate({ax+146} {ay+74})"><rect width="{measure(artist.split(" · ")[1], "Mono", 9.5) + 16:.0f}" height="18" rx="9" fill="#fff" fill-opacity="0.06"/>'
+                 f'<text x="8" y="12.5" class="mono" font-size="9.5" fill="#d8c8bf">{esc(artist.split(" · ")[1])}</text></g>'
+                 f'</g>')
+    # download/offline indicator
+    o.append(f'<g transform="translate({ax+146} {ay+102})"><circle r="0" cx="9" cy="9" fill="none"/>'
+             f'<circle cx="9" cy="9" r="8" fill="none" stroke="#fff" stroke-opacity="0.15" stroke-width="2"/>'
+             f'<circle cx="9" cy="9" r="8" fill="none" stroke="{ORANGE}" stroke-width="2" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 9 9)">'
+             f'<animate attributeName="stroke-dasharray" dur="{D/n}s" repeatCount="indefinite" values="0 100;100 0;100 0" keyTimes="0;0.7;1"/></circle>'
+             f'<path d="M9 5 v7 M6 9.5 l3 3 l3 -3" fill="none" stroke="{ORANGE}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>'
+             f'<text x="24" y="13" class="mono" font-size="10" fill="#a08f86">saving for offline</text></g>')
+    # waveform (progress highlight sweeps across)
+    wy = py + 220
+    rnd = random.Random(42)
+    bars = 40
+    for i in range(bars):
+        x = px + 24 + i * 7.1
+        h = 6 + abs(math.sin(i * 0.55)) * 26 + rnd.randint(0, 10)
+        t0 = i / bars
+        o.append(f'<rect x="{x:.1f}" y="{wy - h/2:.1f}" width="4" height="{h:.1f}" rx="2" fill="#fff" fill-opacity="0.16">'
+                 f'<animate attributeName="fill" dur="{D/n}s" repeatCount="indefinite" calcMode="discrete" keyTimes="0;{t0:.3f};1" values="#ffffff;{ORANGE};{ORANGE}"/>'
+                 f'<animate attributeName="fill-opacity" dur="{D/n}s" repeatCount="indefinite" calcMode="discrete" keyTimes="0;{t0:.3f};1" values="0.16;0.95;0.95"/>'
+                 f'<animate attributeName="height" dur="{0.9 + (i%5)*0.13:.2f}s" repeatCount="indefinite" values="{h:.1f};{h*0.55:.1f};{h:.1f}"/>'
+                 f'<animate attributeName="y" dur="{0.9 + (i%5)*0.13:.2f}s" repeatCount="indefinite" values="{wy-h/2:.1f};{wy-h*0.275:.1f};{wy-h/2:.1f}"/></rect>')
+    # time + controls
+    o.append(f'<text x="{px+24}" y="{wy+36}" class="mono" font-size="10" fill="#8f8079">1:24</text>'
+             f'<text x="{px+pw-24}" y="{wy+36}" text-anchor="end" class="mono" font-size="10" fill="#8f8079">3:41</text>')
+    cxm = px + pw / 2
+    o.append(f'<g transform="translate({cxm} {wy+56})"><path d="M-62 -7 v14 M-58 0 l12 -8 v16z" fill="#d8c8bf" stroke="#d8c8bf" stroke-width="2" stroke-linejoin="round"/>'
+             f'<circle r="17" fill="{ORANGE}"/><rect x="-6" y="-7" width="4" height="14" rx="1.5" fill="{INK}"/><rect x="2" y="-7" width="4" height="14" rx="1.5" fill="{INK}"/>'
+             f'<path d="M62 -7 v14 M58 0 l-12 -8 v16z" fill="#d8c8bf" stroke="#d8c8bf" stroke-width="2" stroke-linejoin="round"/></g>')
+    o.append("</g></g>")
+    o += frame_close(W, H, ORANGE, 0.2)
+    return "\n".join(o)
+
+
+# ================================================================== SECTION HEADERS
+def section(fname, num, title, note, accent=ORANGE):
+    W, H = 830, 64
+    css = font_css("Display", "Serif", "Mono") + BASE_CSS + """
+.line{stroke-dasharray:1000;stroke-dashoffset:1000;animation:drawl 1.6s cubic-bezier(.6,.05,.3,1) .3s forwards;}
+@keyframes drawl{to{stroke-dashoffset:0}}
+.run{animation:run 4s ease-in-out 2s infinite;}
+@keyframes run{0%{transform:translateX(0);opacity:0}10%{opacity:1}80%{opacity:1}100%{transform:translateX(var(--d));opacity:0}}
+"""
+    tw = measure(title, "Display", 26, -0.8)
+    nw = measure(note, "Mono", 10.5, 1.5)
+    x1, x2 = 78 + tw + 22, W - 28 - nw - 18
+    o = frame_open(W, H, f"{num} — {title}", css)
+    o.append(f'<text x="26" y="44" class="serif up" font-size="34" fill="{accent}">{num}</text>')
+    o.append(f'<text x="76" y="41" class="display up" font-size="26" letter-spacing="-0.8" fill="{PAPER}" style="animation-delay:.1s">{esc(title)}</text>')
+    o.append(f'<line x1="{x1:.0f}" y1="32" x2="{x2:.0f}" y2="32" stroke="{PAPER}" stroke-opacity="0.18" class="line"/>')
+    o.append(f'<circle cx="{x1:.0f}" cy="32" r="3" fill="{accent}" class="run" style="--d:{x2-x1:.0f}px"/>')
+    o.append(f'<text x="{W-28}" y="36" text-anchor="end" class="mono fade" font-size="10.5" letter-spacing="1.5" fill="#8a8780" style="animation-delay:.8s">{esc(note)}</text>')
+    o += frame_close(W, H)
+    write(fname, "\n".join(o))
+
+
+# ================================================================== BUTTONS
+def button(fname, label, sub, accent, icon, W=268, bg="#0f0f10", fg=INK):
+    H = 64
+    css = font_css("Display", "Mono") + BASE_CSS + """
+.sh{animation:sh 5s ease-in-out infinite;transform:translateX(-120px);}
+@keyframes sh{0%{transform:translateX(-120px)}30%,100%{transform:translateX(420px)}}
+.nudge{animation:arrow 2.4s ease-in-out infinite;}
+@keyframes arrow{0%,60%,100%{transform:translate(0,0)}30%{transform:translate(3px,-3px)}}
+"""
+    defs = ('<linearGradient id="shg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.5" stop-color="#fff" stop-opacity="0.18"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'
+            f'<clipPath id="bc"><rect width="{W}" height="{H}" rx="32"/></clipPath>')
+    o = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="{esc(label)}">',
+         f"<title>{esc(label)}</title><defs><style>{css}</style>{defs}</defs>",
+         f'<g clip-path="url(#bc)"><rect width="{W}" height="{H}" fill="{bg}"/><rect class="sh" x="0" y="0" width="90" height="{H}" fill="url(#shg)" transform="skewX(-20)"/></g>',
+         f'<rect x="0.75" y="0.75" width="{W-1.5}" height="{H-1.5}" rx="31.25" fill="none" stroke="{accent}" stroke-opacity="0.45" stroke-width="1.5"/>',
+         f'<circle cx="32" cy="32" r="20" fill="{accent}"/><g transform="translate(32 32)">{icon(fg)}</g>',
+         f'<text x="64" y="30" class="display" font-size="16" letter-spacing="-0.3" fill="{PAPER}">{esc(label)}</text>',
+         f'<text x="64" y="46" class="mono" font-size="10" fill="#8a8780">{esc(sub)}</text>',
+         f'<g class="nudge"><path transform="translate({W-30} 32)" d="M-5 5 L5 -5 M-2 -5 H5 V2" fill="none" stroke="{accent}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>',
+         "</svg>\n"]
+    write(fname, "\n".join(o))
+
+
+def ic_globe(c):
+    return f'<circle r="8" fill="none" stroke="{c}" stroke-width="1.8"/><ellipse rx="3.6" ry="8" fill="none" stroke="{c}" stroke-width="1.6"/><path d="M-8 0 H8" stroke="{c}" stroke-width="1.6"/>'
+
+
+def ic_insta(c):
+    return f'<rect x="-8" y="-8" width="16" height="16" rx="5" fill="none" stroke="{c}" stroke-width="1.8"/><circle r="3.6" fill="none" stroke="{c}" stroke-width="1.8"/><circle cx="4.6" cy="-4.6" r="1.1" fill="{c}"/>'
+
+
+def ic_mail(c):
+    return f'<rect x="-8.5" y="-6" width="17" height="12" rx="2.5" fill="none" stroke="{c}" stroke-width="1.8"/><path d="M-7.5 -4.5 L0 1 L7.5 -4.5" fill="none" stroke="{c}" stroke-width="1.8" stroke-linejoin="round"/>'
+
+
+def ic_down(c):
+    return f'<path d="M0 -8 V5 M-5 0 L0 5 L5 0 M-7 8 H7" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+
+
+def ic_code(c):
+    return f'<path d="M-3 -7 L-9 0 L-3 7 M3 -7 L9 0 L3 7" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+
+
+def extras():
+    write("k4-audio.svg", k4_scene())
+    section("section-building.svg", "01", "Now building", "WHAT I'M SHIPPING NEXT", TEAL2)
+    section("section-shipped.svg", "02", "Already shipped", "LIVE, USED, MAINTAINED")
+    section("section-more.svg", "03", "More things I made", "TOOLS · BOTS · AI")
+    section("section-activity.svg", "04", "Activity", "UPDATES EVERY DAY")
+    button("btn-portfolio.svg", "Portfolio", "kartiklangwan.runs-on.dev", ORANGE, ic_globe)
+    button("btn-instagram.svg", "Instagram", "@k4rtik.nvm", ORANGE, ic_insta)
+    button("btn-email.svg", "Email", "kartiklangwan@gmail.com", ORANGE, ic_mail)
+    button("btn-sweeplark-download.svg", "Download Sweeplark", "Windows 10 / 11 · ~4 MB", TEAL2, ic_down, W=300, bg="#07100f")
+    button("btn-sweeplark-code.svg", "View the code", "github.com/KartikLangwan/Sweeplark", TEAL2, ic_code, W=330, bg="#07100f")
+    button("btn-k4-download.svg", "Get K4 Audio", "free · no ads · no account", ORANGE, ic_down, W=300, bg="#100906")
 
 
 if __name__ == "__main__":
@@ -615,3 +749,4 @@ if __name__ == "__main__":
     cards()
     write("stack.svg", stack())
     write("now.svg", now())
+    extras()
